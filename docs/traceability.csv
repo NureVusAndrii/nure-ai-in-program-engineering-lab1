@@ -1,0 +1,48 @@
+requirement,user_story,acceptance_criterion,rule_ref,component,api,future_test
+FR-01,US-01,AC-01-01,§6,API boundary+IssueService+SQLite Storage,POST /issues,test_create_issue_defaults
+FR-01,US-01,AC-01-02,§6,API boundary,POST /issues,test_create_title_trimmed_and_120_chars
+FR-01;FR-07,US-01,AC-01-03,§6;§9,API boundary,POST /issues,test_create_title_out_of_range_rejected
+FR-01;FR-07,US-01,AC-01-04,§6,API boundary,POST /issues,test_description_boundaries_and_default
+FR-01;FR-07,US-01,AC-01-05,§6,API boundary,POST /issues,test_create_rejects_server_and_unknown_fields
+FR-01;FR-07,US-01,AC-01-06,§6,API boundary,POST /issues,test_priority_case_sensitive
+FR-07,US-01,AC-01-07,§10,SQLite Storage,GET /issues/{id},test_data_persists_after_restart
+FR-02,US-02,AC-02-01,§10,IssueService+SQLite Storage,GET /issues,test_list_in_creation_order
+FR-02,US-02,AC-02-02,§9,IssueService,GET /issues,test_filter_status_and_priority_is_and
+FR-02,US-02,AC-02-03,§9,IssueService,GET /issues,test_filter_priority_only
+FR-02,US-02,AC-02-04,§9,IssueService,GET /issues,test_filter_no_matches_returns_empty_list
+FR-02;FR-07,US-02,AC-02-05,§9,API boundary,GET /issues,test_filter_invalid_value_422
+FR-02,US-03,AC-03-01,§6,IssueService,GET /issues/{id},test_get_issue_ok
+FR-02,US-03,AC-03-02,§9,IssueService,GET /issues/{id},test_get_issue_not_found_404
+FR-02;FR-07,US-03,AC-03-03,§9,API boundary,GET /issues/{id},test_get_issue_non_integer_id_422
+FR-03,US-04,AC-04-01,§8 P-01,IssueService+SQLite Storage,PATCH /issues/{id},test_patch_changes_only_given_field
+FR-03;FR-07,US-04,AC-04-02,§8 P-06,API boundary+IssueService,PATCH /issues/{id},test_patch_mixed_valid_invalid_is_atomic
+FR-03,US-04,AC-04-03,§8 P-04,API boundary,PATCH /issues/{id},test_patch_empty_body_422
+FR-03,US-04,AC-04-04,§8 P-05,API boundary,PATCH /issues/{id},test_patch_status_field_rejected
+FR-03,US-04,AC-04-05,§8 P-03,API boundary,PATCH /issues/{id},test_patch_null_title_422
+FR-03;FR-04,US-04,AC-04-06,§7.1;§8 P-08,IssueService,PATCH /issues/{id},test_patch_closed_issue_409
+FR-03,US-04,AC-04-07,§9,IssueService,PATCH /issues/{id},test_patch_missing_issue_404
+FR-04,US-05,AC-05-01,§7 T-02,IssueService,PATCH /issues/{id}/status,test_open_to_in_progress
+FR-04,US-05,AC-05-02,§7 T-03,IssueService,PATCH /issues/{id}/status,test_open_to_closed_directly
+FR-04,US-05,AC-05-03,§7 T-06,IssueService,PATCH /issues/{id}/status,test_in_progress_to_closed
+FR-04,US-05,AC-05-04,§7 T-07,IssueService,PATCH /issues/{id}/status,test_closed_cannot_reopen
+FR-04,US-05,AC-05-05,§7 T-04,IssueService,PATCH /issues/{id}/status,test_in_progress_cannot_return_to_open
+FR-04,US-05,AC-05-06,§7 T-09,IssueService,PATCH /issues/{id}/status,test_repeat_current_status_no_change
+FR-04;FR-07,US-05,AC-05-07,§6,API boundary,PATCH /issues/{id}/status,test_invalid_status_value_422
+FR-05,US-06,AC-06-01,§6,IssueService,PATCH /issues/{id},test_assign_user
+FR-05,US-06,AC-06-02,§8 P-02,IssueService,PATCH /issues/{id},test_unassign_with_null
+FR-05;FR-07,US-06,AC-06-03,§6,API boundary,PATCH /issues/{id},test_unknown_assignee_422
+FR-05,US-06,AC-06-04,§6,SQLite Storage,GET /users,test_users_directory
+FR-06,US-07,AC-07-01,§6,IssueService+SQLite Storage,POST /issues/{id}/comments,test_add_comment
+FR-06,US-07,AC-07-02,§10,SQLite Storage,GET /issues/{id}/comments,test_comments_in_creation_order
+FR-06,US-07,AC-07-03,§7.1,IssueService,POST /issues/{id}/comments,test_comment_on_closed_issue_allowed
+FR-06;FR-07,US-07,AC-07-04,§6,API boundary,POST /issues/{id}/comments,test_comment_text_boundaries
+FR-06;FR-07,US-07,AC-07-05,§6,API boundary,POST /issues/{id}/comments,test_comment_unknown_author_422
+FR-06,US-07,AC-07-06,§9,IssueService,POST /issues/{id}/comments;GET /issues/{id}/comments,test_comments_missing_issue_404
+FR-06,US-07,AC-07-07,§9,IssueService,GET /issues/{id}/comments,test_comments_empty_list
+FR-08,US-08,,ADR-02,IssueAdvisor (ЛР4),POST /issues/{id}/ai-recommendation,ЛР4
+NFR-01,,,§3,API boundary,GET /health,test_health_ok
+NFR-02,,,§3,API boundary,*,test_error_body_format
+NFR-03,,,§3,SQLite Storage,*,test_working_db_untouched
+NFR-04,,,§3,repository,*,manual_secret_scan_before_tag
+NFR-05,,,§3,IssueService+IssueAdvisor,*,test_core_works_without_ai
+NFR-06,,,§3,API boundary,POST /issues,test_created_at_utc_format
